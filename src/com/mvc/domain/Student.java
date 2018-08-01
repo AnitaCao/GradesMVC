@@ -16,6 +16,15 @@ public class Student {
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date sdob;
 	
+	public Student() {}  
+	  
+	public Student(String sname, String ssex,Date sdob ) {  
+	    super();     
+	    this.sname = sname;  
+	    this.ssex = ssex;  
+	    this.sdob = sdob;  
+	}
+	
     private Set<Course> courses = new HashSet<Course>();
 	
     private Set<Grade> grades = new HashSet<Grade>();
@@ -62,7 +71,7 @@ public class Student {
 		this.grades = grades;
 	}
 	public String toString(){
-		
-		return "Student id: " + this.id + "; Name: " + this.sname + "; DOB: " + this.sdob + "; Sex: " + this.ssex + ".";
+		return "Student Name: " + this.sname + "; DOB: " + this.sdob + "; Sex: " + this.ssex + ".";
+		//return "Student id: " + this.id + "; Name: " + this.sname + "; DOB: " + this.sdob + "; Sex: " + this.ssex + ".";
 	}
 }

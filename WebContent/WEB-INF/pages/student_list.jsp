@@ -7,8 +7,11 @@
 </head>
 <body>
 
-   <!--  <form action="/studentlist.action" method="post"> -->
 	<form>
+<!--         <div style="padding-left:40px;">
+            <a href="/GradesMVC/student/add.action">Add Student</a>   跳转路径
+        </div> -->
+        
         <table border="1">
             <tr>
                 <td>id:</td>

@@ -1,12 +1,12 @@
-<%@page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>   
 <html>
     <head>
     </head>
     <body>
         <h3>Welcome, Enter The Student Details</h3>
         <form:form method="POST"
-          action="/GradesMVC/addStudent.action" modelAttribute="student">
+          action="/GradesMVC/student/confirmAddStudent.action" modelAttribute="student">
              <table>
                 <tr>
                     <td><form:label path="sname">Name</form:label></td>
@@ -16,15 +16,11 @@
                     <td><form:label path="ssex">Gender (m/f)</form:label></td>
                     <td><form:input path="ssex"/></td>
                 </tr>
-                <tr>
-                    <td><form:label path="id">Id</form:label></td>
-                    <td><form:input path="id"/></td>
-                </tr>
-                <tr>
+                 <tr>
                     <td><form:label path="sdob" type="date">
                       Date of Birth (yyyy-MM-dd)</form:label></td>
                     <td><form:input path="sdob"/></td>
-                </tr>
+                </tr> 
                 <tr>
                     <td><input type="submit" value="Submit"/></td>
                 </tr>

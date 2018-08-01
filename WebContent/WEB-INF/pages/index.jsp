@@ -7,6 +7,9 @@
 
   <body>
     This is my Spring MVC!
+    <a href="student/add.action">Add Student</a>  
+	<a href="student/all.action">View Students List</a>  
+    
     <h2>${msg}</h2>
   </body>
 </html>
