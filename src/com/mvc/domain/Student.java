@@ -3,16 +3,40 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
-
+@Table(name="Student")
+@Entity
+@NamedQueries({
+	@NamedQuery(name= "student.findAll", query= "select s From Student s"),
+	@NamedQuery(name= "student.findByName", query= "select s From Student s where s.sname =:sname"),
+})
 public class Student {
+	
+	@Column(name="id")
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Id
 	private int id;
 	
+	@Column(name="sname")
 	private String sname;
 	
+	@Column(name="ssex")
 	private String ssex;
 	
+	@Column(name="sdob")
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date sdob;
 	
@@ -25,9 +49,12 @@ public class Student {
 	    this.sdob = sdob;  
 	}
 	
-    private Set<Course> courses = new HashSet<Course>();
-	
-    private Set<Grade> grades = new HashSet<Grade>();
+//	@ManyToMany(mappedBy="students")
+//    private Set<Course> courses = new HashSet<Course>();
+//	
+//    @JoinColumn(name = "sid")
+//	@OneToMany
+//    private Set<Grade> grades = new HashSet<Grade>();
     
 	public int getId() {
 		return id;
@@ -58,18 +85,18 @@ public class Student {
 	}
 	
 		
-	public Set<Course> getCourses() {
-		return courses;
-	}
-	public void setCourses(Set<Course> courses) {
-		this.courses = courses;
-	}
-	public Set<Grade> getGrades() {
-		return grades;
-	}
-	public void setGrades(Set<Grade> grades) {
-		this.grades = grades;
-	}
+//	public Set<Course> getCourses() {
+//		return courses;
+//	}
+//	public void setCourses(Set<Course> courses) {
+//		this.courses = courses;
+//	}
+//	public Set<Grade> getGrades() {
+//		return grades;
+//	}
+//	public void setGrades(Set<Grade> grades) {
+//		this.grades = grades;
+//	}
 	public String toString(){
 		return "Student Name: " + this.sname + "; DOB: " + this.sdob + "; Sex: " + this.ssex + ".";
 		//return "Student id: " + this.id + "; Name: " + this.sname + "; DOB: " + this.sdob + "; Sex: " + this.ssex + ".";
