@@ -56,6 +56,7 @@
 		<th width="80">Student ID</th>
 		<th width="120">Student Name</th>
 		<th width="120">Student Gender</th>
+		<!-- <th width="120">Student DOB</th> -->
 		<th width="60">Edit</th>
 		<th width="60">Delete</th>
 	</tr>
@@ -64,9 +65,9 @@
 			<td>${student.id}</td>
 			<td>${student.sname}</td>
 			<td>${student.ssex}</td>
-			<td>${student.sdob}</td>
-			<td><a href="<c:url value='/edit/${student.id}' />" >Edit</a></td>
-			<td><a href="<c:url value='/remove/${student.id}' />" >Delete</a></td>
+			<%-- <td>${student.sdob}</td> --%>
+			<td><a href="<c:url value='/student/edit/${student.id}.action' />" >Edit</a></td>
+			<td><a href="<c:url value='/student/remove/${student.id}.action' />" >Delete</a></td>
 		</tr>
 	</c:forEach>
 	</table>

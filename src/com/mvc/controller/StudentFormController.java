@@ -22,7 +22,7 @@ import com.mvc.service.StudentService;
 
 public class StudentFormController {
 
-	private StudentService studentService;
+	private StudentService studentService; // 注入 service 层
 
 	@Autowired(required = true)
 	@Qualifier(value = "studentService")
@@ -63,7 +63,6 @@ public class StudentFormController {
 	public String updateStudentList(HttpSession session) {
 		Student student = (Student) session.getAttribute("studentInfo");
 		System.out.println(student.toString());
-		
 		this.studentService.addStudent(student); // 调用 Service 层方法，插入数据
 		return "redirect:/student/all.action"; // 转向人员列表 action
 	}
@@ -84,66 +83,18 @@ public class StudentFormController {
 //
 //	}
 
-	@RequestMapping("/remove/{id}")
-	public String removePerson(@PathVariable("id") int id) {
-
+	@RequestMapping("/student/remove/{id}")
+	public String removeStudent(@PathVariable("id") int id) {
+		System.out.println("calling remove method.");
 		this.studentService.removeStudent(id);
-		return "redirect:/student/all";
+		return "redirect:/student/all.action";
 	}
 
-	@RequestMapping("/edit/{id}")
-	public String editPerson(@PathVariable("id") int id, Model model) {
-		model.addAttribute("person", this.studentService.getStudentById(id));
-		model.addAttribute("listPersons", this.studentService.listStudents());
+	@RequestMapping("/student/edit/{id}")
+	public String editStudent(@PathVariable("id") int id, Model model) {
+		model.addAttribute("student", this.studentService.getStudentById(id));
+		model.addAttribute("listStudents", this.studentService.listStudents());
 		return "student_list";
-	}
-
-	// @Resource
-	// StudentServiceImpl ss; // 注入 service 层
-	//
-	//// @RequestMapping(value = "/student", method = RequestMethod.GET)
-	//// public ModelAndView showForm() {
-	//// return new ModelAndView("add_student_form", "student", new Student());
-	//// }
-	//
-	// @RequestMapping(value = "/student/all")
-	// public String findAll(Map<String,Object> model){ // 声明 model 用来传递数据
-	// List<Student> studentList = ss.findAll();
-	// model.put("studentList",studentList); // 通过这一步，JSP 页面就可以访问 studentList
-	// return "student_list"; // 跳转到 jPersonList 页面
-	// }
-	//
-	// @RequestMapping(value = "/student/add", method = RequestMethod.GET)
-	// public ModelAndView toCteateStudentInfo(){ // 跳转新增页面
-	// System.out.println("here");
-	// return new ModelAndView("add_student_form","student",new Student());
-	//
-	// }
-	//
-	//
-	// @RequestMapping(value = "/student/confirmAddStudent", method =
-	// RequestMethod.POST)
-	// public String submit(@ModelAttribute("student")Student student,
-	// BindingResult result, ModelMap model, HttpSession session) {
-	// if (result.hasErrors()) {
-	// System.out.println(result.getAllErrors().get(0));
-	// return "error";
-	// }
-	// session.setAttribute("studentInfo", student);
-	//
-	// model.addAttribute("sname", student.getSname());
-	// model.addAttribute("ssex", student.getSsex());
-	// model.addAttribute("sdob", student.getSdob());
-	// model.addAttribute("id", student.getId());
-	// return "student_view";
-	// }
-	//
-	// @RequestMapping(value = "/student/updateStudentList")
-	// public String updateStudentList(HttpSession session){
-	// Student student = (Student)session.getAttribute("studentInfo");
-	// System.out.println(student.toString());
-	// ss.insert(student); // 调用 Service 层方法，插入数据
-	// return "redirect:/student/all.action"; // 转向人员列表 action
-	// }
+	} 
 
 }
