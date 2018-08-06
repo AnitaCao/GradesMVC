@@ -26,14 +26,14 @@
 	</style>
 </head>
 <body>
-<h1>
-	<a href="student/add.action">Add a Student</a>  
-</h1>
 
+<h1>
+	<a href="student/all.action">View Students List</a> 
+</h1>
 
 <br>
 <h1>
-	<a href="student/all.action">View Students List</a> 
+	<a href="course/all.action">View Courses List</a> 
 </h1>
 
 

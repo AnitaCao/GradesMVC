@@ -1,7 +1,8 @@
 package com.mvc.controller;
 
 
-import javax.servlet.http.HttpSession;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,7 +26,7 @@ public class StudentFormController {
 
 	@Autowired(required = true)
 	@Qualifier(value = "studentService")
-	public void setPersonService(StudentService ss) {
+	public void setStudentService(StudentService ss) {
 		this.studentService = ss;
 	}
 
@@ -37,64 +37,65 @@ public class StudentFormController {
 		return "student_list";
 	}
 
-	@RequestMapping(value = "/student/add", method = RequestMethod.GET)
+	@RequestMapping(value = "/student/new", method = RequestMethod.GET)
 	public ModelAndView showForm() {
-		System.out.println("here");
 		return new ModelAndView("add_student_form", "student", new Student());
 	 }
 	
-	 @RequestMapping(value = "/student/confirmAddStudent", method =
-	 RequestMethod.POST)
-	 public String submit(@ModelAttribute("student")Student student, 
-			 BindingResult result, ModelMap model, HttpSession session) {
-		 if (result.hasErrors()) {
-			 	System.out.println(result.getAllErrors().get(0));
-			 	return "error";
-		 }
-		 session.setAttribute("studentInfo", student);
-		 model.addAttribute("sname", student.getSname());
-		 model.addAttribute("ssex", student.getSsex());
-		 model.addAttribute("sdob", student.getSdob());
-		 model.addAttribute("id", student.getId());
-		 return "student_view";
-	}
+    /*
+     * This method will be called on form submission, handling POST request for
+     * saving student in database. It also validates the user input
+     */
+    @RequestMapping(value = { "student/new" }, method = RequestMethod.POST)
+    public String saveStudent(@Valid Student student, BindingResult result,
+            ModelMap model) {
+ 
+        if (result.hasErrors()) {
+            return "add_student_form";
+        }
+        this.studentService.addStudent(student);
+        model.addAttribute("type","student");
+        model.addAttribute("success", "Student " + student.getSname() + " registered successfully");
+        return "success";
+    }
 	 
-	@RequestMapping(value = "/student/updateStudentList")
-	public String updateStudentList(HttpSession session) {
-		Student student = (Student) session.getAttribute("studentInfo");
-		System.out.println(student.toString());
-		this.studentService.addStudent(student); // 调用 Service 层方法，插入数据
-		return "redirect:/student/all.action"; // 转向人员列表 action
-	}
-	 
-	// For add and update person both
-//	@RequestMapping(value = "/student/add", method = RequestMethod.POST)
-//	public String addPerson(@ModelAttribute("student") Student p) {
-//
-//		if (p.getId() == 0) {
-//			// new person, add it
-//			this.studentService.addStudent(p);
-//		} else {
-//			// existing person, call update
-//			this.studentService.updateStudent(p);;
-//		}
-//
-//		return "redirect:/student/all";
-//
-//	}
+    
+    /*
+     * This method will provide the medium to update an existing employee.
+     */
+    @RequestMapping(value = { "/edit-{id}-student" }, method = RequestMethod.GET)
+    public String editStudent(@PathVariable int id, ModelMap model) {
+        Student student = this.studentService.getStudentById(id);
+        model.addAttribute("student", student);
+        model.addAttribute("edit", true);
+        return "add_student_form";
+    }
+     
+    /*
+     * This method will be called on form submission, handling POST request for
+     * updating employee in database. It also validates the user input
+     */
+    @RequestMapping(value = { "/edit-{id}-student" }, method = RequestMethod.POST)
+    public String updateStudent(@Valid Student student, BindingResult result,
+            ModelMap model, @PathVariable int id) {
+ 
+        if (result.hasErrors()) {
+            return "add_student_form";
+        }
+        this.studentService.updateStudent(student);
+        model.addAttribute("type","student");
+        model.addAttribute("success", "Student " + student.toString()  + " updated successfully");
+        return "success";
+    }
+    
+    /*
+     * This method will delete a student by it's id.
+     */
+    @RequestMapping(value = { "/delete-{id}-student" }, method = RequestMethod.GET)
+    public String deleteStudent(@PathVariable int id) {
+        this.studentService.removeStudent(id);
+        return "redirect:/student/all";
+    }
 
-	@RequestMapping("/student/remove/{id}")
-	public String removeStudent(@PathVariable("id") int id) {
-		System.out.println("calling remove method.");
-		this.studentService.removeStudent(id);
-		return "redirect:/student/all.action";
-	}
-
-	@RequestMapping("/student/edit/{id}")
-	public String editStudent(@PathVariable("id") int id, Model model) {
-		model.addAttribute("student", this.studentService.getStudentById(id));
-		model.addAttribute("listStudents", this.studentService.listStudents());
-		return "student_list";
-	} 
 
 }

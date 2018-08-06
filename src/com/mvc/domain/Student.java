@@ -14,6 +14,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -30,6 +32,8 @@ public class Student {
 	@Id
 	private int id;
 	
+	@NotNull
+	@Size(min=3, max=50)
 	@Column(name="sname")
 	private String sname;
 	
