@@ -49,12 +49,12 @@ public class Student {
 	    this.sdob = sdob;  
 	}
 	
-//	@ManyToMany(mappedBy="students")
-//    private Set<Course> courses = new HashSet<Course>();
-//	
-//    @JoinColumn(name = "sid")
-//	@OneToMany
-//    private Set<Grade> grades = new HashSet<Grade>();
+	@ManyToMany(mappedBy="students")
+    private Set<Course> courses = new HashSet<Course>();
+	
+    @JoinColumn(name = "sid")
+	@OneToMany
+    private Set<Grade> grades = new HashSet<Grade>();
     
 	public int getId() {
 		return id;
