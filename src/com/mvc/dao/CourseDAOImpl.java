@@ -1,14 +1,18 @@
 package com.mvc.dao;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import com.mvc.domain.Course;
+import com.mvc.domain.Student;
 
+@Repository("courseDao")
 public class CourseDAOImpl extends AbstractDAO<Integer, Course> implements CourseDAO{
 	
 	private final Logger logger = LoggerFactory.getLogger(CourseDAOImpl.class);
@@ -28,13 +32,19 @@ public class CourseDAOImpl extends AbstractDAO<Integer, Course> implements Cours
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Course> listCourses() {
-		Criteria criteria = createEntityCriteria();
-        return (List<Course>) criteria.list();
+		List<Course> coursesList = this.getEntityManager().createQuery("SELECT c FROM Course c").getResultList();
+		
+        for(Course p : coursesList){
+ 			logger.info("Course List::"+p);
+ 		}
+         return coursesList;
 	}
 
 	@Override
 	public Course getCourseById(int id) {
-		return getByKey(id);
+		Course c = getByKey(id);
+		if(c!=null) initializeCollection(c.getStudents());
+		return c;
 	}
 
 	@Override
@@ -47,17 +57,23 @@ public class CourseDAOImpl extends AbstractDAO<Integer, Course> implements Cours
 		
 	}
  
+    //An alternative to Hibernate.initialize()
+    protected void initializeCollection(Collection<?> collection) {
+        if(collection == null) {
+            return;
+        }
+        collection.iterator().hasNext();
+    }
  
     public Course findCourseByTitle(String title) {
-        Criteria criteria = createEntityCriteria();
-        criteria.add(Restrictions.eq("title", title));
-        return (Course) criteria.uniqueResult();
+    	return null;
+//        Criteria criteria = createEntityCriteria();
+//        criteria.add(Restrictions.eq("title", title));
+//        return (Course) criteria.uniqueResult();
     }
     
     public Course findCourseByCode(String code) {
-        Criteria criteria = createEntityCriteria();
-        criteria.add(Restrictions.eq("code", code));
-        return (Course) criteria.uniqueResult();
+        return null;
     }
 	
 	

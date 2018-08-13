@@ -5,14 +5,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/welcome")
+@RequestMapping("/")
 public class HomeController{
-	@RequestMapping(method = RequestMethod.GET)
+	
+	@RequestMapping(value={"/","/welcome"}, method = RequestMethod.GET)
 	public ModelAndView helloWorld(){
- 
 		ModelAndView model = new ModelAndView("index");
-		model.addObject("msg", "hello world");
- 
+//		model.addObject("msg", "hello world");
 		return model;
 	}
 	

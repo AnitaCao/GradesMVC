@@ -1,12 +1,15 @@
 package com.mvc.dao;
 
+import java.util.Collection;
 import java.util.List;
 
-import org.hibernate.Criteria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
+
 import com.mvc.domain.Student;
 
+@Repository("studentDao")
 public class StudentDAOImpl extends AbstractDAO<Integer, Student> implements StudentDAO {
 	
 	private final Logger logger = LoggerFactory.getLogger(StudentDAOImpl.class);
@@ -27,20 +30,21 @@ public class StudentDAOImpl extends AbstractDAO<Integer, Student> implements Stu
 
 	@Override
 	public List<Student> listStudents() {
+        @SuppressWarnings("unchecked")
+		List<Student> studentsList = this.getEntityManager().createQuery("SELECT s FROM Student s ORDER BY s.id ASC").getResultList();
 		
-		Criteria criteria = createEntityCriteria();
-         @SuppressWarnings("unchecked")
-		List<Student> studentsList = (List<Student>) criteria.list();
-         for(Student p : studentsList){
- 			logger.info("Person List::"+p);
+        for(Student p : studentsList){
+        	if(p!=null) initializeCollection(p.getCourses());
+ 			logger.info("Student List::"+p);
  		}
-         return studentsList;
+        return studentsList;
 		 
 	}
 
 	@Override
 	public Student getStudentById(int id) {
 		Student s = getByKey(id);
+		if(s!=null) initializeCollection(s.getCourses());
 		logger.info("Person loaded successfully, Person details="+s);
 		return s;
 	}
@@ -55,7 +59,13 @@ public class StudentDAOImpl extends AbstractDAO<Integer, Student> implements Stu
 		
 	}
 	
-	
+    //An alternative to Hibernate.initialize()
+    protected void initializeCollection(Collection<?> collection) {
+        if(collection == null) {
+            return;
+        }
+        collection.iterator().hasNext();
+    }
 	
 	
 }

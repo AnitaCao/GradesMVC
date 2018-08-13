@@ -24,13 +24,8 @@ import com.mvc.service.CourseService;
 
 public class CourseController {
 
+	@Autowired
 	private CourseService courseService; // 注入 service 层
-
-	@Autowired(required = true)
-	@Qualifier(value = "courseService")
-	public void setCourseService(CourseService cs) {
-		this.courseService = cs;
-	}
 
 	@Autowired
     MessageSource messageSource;

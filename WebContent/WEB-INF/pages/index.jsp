@@ -35,7 +35,10 @@
 <h1>
 	<a href="course/all.action">View Courses List</a> 
 </h1>
-
+<br>
+<h1>
+	<a href="teacher/all.action">View Teachers List</a> 
+</h1>
 
 </body>
 </html>

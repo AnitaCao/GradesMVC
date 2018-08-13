@@ -1,13 +1,34 @@
 package com.mvc.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import com.mvc.domain.Student;
+
+@Entity
+@Table(name = "Grade")
 public class Grade {
 	
+	@Column(name = "id")
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 
+	@JoinColumn(name = "cid")
+	@ManyToOne
 	private Course course;
 	
+	@JoinColumn(name = "sid")
+	@ManyToOne
 	private Student student;
 	
+	@Column(name = "grade")
 	private int grade;
 	
 	public Course getCourse() {

@@ -1,5 +1,6 @@
 package com.mvc.domain;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,7 +25,12 @@ import com.mvc.domain.Student;
 
 @Table(name="Course")
 @Entity
-public class Course {
+public class Course implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7826419813647868687L;
 
 	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -43,10 +49,11 @@ public class Course {
 	@Column(name="title")
 	private String title;
 
-	@JoinTable(name="Grade",//中间表的名称
-            joinColumns={@JoinColumn(name="cid",referencedColumnName="id")},//中间表PRODUCT_ID字段关联PRODUCT的ID
-            inverseJoinColumns={@JoinColumn(name="sid",referencedColumnName="id")})//中间表CATEGORY_ID字段关联CATEGORY的ID
-    @ManyToMany
+//	@JoinTable(name="Grade",//中间表的名称
+//            joinColumns={@JoinColumn(name="cid",referencedColumnName="id")},//中间表PRODUCT_ID字段关联PRODUCT的ID
+//            inverseJoinColumns={@JoinColumn(name="sid",referencedColumnName="id")})//中间表CATEGORY_ID字段关联CATEGORY的ID
+//    @ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(mappedBy = "courses")
     private Set<Student> students = new HashSet<Student>();
 	
 	@JoinColumn(name = "tid")
