@@ -3,14 +3,11 @@ package com.mvc.dao;
 import java.util.Collection;
 import java.util.List;
 
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.mvc.domain.Course;
-import com.mvc.domain.Student;
 
 @Repository("courseDao")
 public class CourseDAOImpl extends AbstractDAO<Integer, Course> implements CourseDAO{

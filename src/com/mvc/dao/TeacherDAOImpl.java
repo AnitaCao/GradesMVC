@@ -2,13 +2,10 @@ package com.mvc.dao;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import com.mvc.domain.Student;
 import com.mvc.domain.Teacher;
 
 @Repository("teacherDao")
@@ -31,8 +28,7 @@ public class TeacherDAOImpl extends AbstractDAO<Integer, Teacher> implements Tea
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Teacher> listTeachers() {
-		 @SuppressWarnings("unchecked")
-			List<Teacher> teachersList = this.getEntityManager().createQuery("SELECT t FROM Teacher t ORDER BY t.id ASC").getResultList();
+		 List<Teacher> teachersList = this.getEntityManager().createQuery("SELECT t FROM Teacher t ORDER BY t.id ASC").getResultList();
 			
 	        for(Teacher p : teachersList){
 	 			logger.info("Teacher List::"+p);

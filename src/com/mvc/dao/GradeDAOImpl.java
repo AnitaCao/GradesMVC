@@ -2,7 +2,6 @@ package com.mvc.dao;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -26,7 +25,6 @@ public class GradeDAOImpl extends AbstractDAO<Integer, Grade> implements GradeDA
 		
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Grade> listGrades() {
 		return null;
